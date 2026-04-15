@@ -1,0 +1,207 @@
+/* ============================================
+   MODAL & MERKLE TREE VISUALIZATION STYLES
+   Additional styles for record preview modal
+   ============================================ */
+
+/* Record Details Modal Content */
+.record-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detail-section {
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.detail-section h4 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    font-weight: 500;
+    word-break: break-word;
+}
+
+/* Enhanced Hash Display */
+.hash-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    background: var(--primary-light);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    word-break: break-all;
+    margin: 0.75rem 0;
+    border: 1px solid var(--border);
+    transition: all var(--transition-base);
+}
+
+.hash-display:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.hash-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 600;
+}
+
+.hash-value {
+    color: var(--primary);
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* Merkle Tree Visualization */
+.merkle-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    min-height: 300px;
+}
+
+.tree-level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.tree-node {
+    width: 70px;
+    height: 70px;
+    background: var(--bg-card);
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    cursor: help;
+    transition: all var(--transition-base);
+    word-break: break-all;
+    padding: 0.25rem;
+    text-align: center;
+}
+
+.tree-node:hover {
+    transform: scale(1.15);
+    border-color: var(--primary);
+    background: var(--bg-card-hover);
+    z-index: 10;
+    box-shadow: var(--shadow-glow);
+}
+
+.tree-node.root {
+    border-color: var(--accent);
+    width: 90px;
+    height: 90px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    box-shadow: 0 0 20px var(--accent-glow);
+    background: var(--accent-glow);
+}
+
+.tree-node.root:hover {
+    box-shadow: 0 0 30px var(--accent-glow);
+    transform: scale(1.2);
+}
+
+/* Connecting lines between tree levels */
+.tree-level:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 2rem;
+    background: var(--border);
+    opacity: 0.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .merkle-tree {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .tree-node {
+        width: 50px;
+        height: 50px;
+        font-size: 0.55rem;
+    }
+    
+    .tree-node.root {
+        width: 70px;
+        height: 70px;
+        font-size: 0.65rem;
+    }
+}
+
+/* Animation for tree nodes */
+@keyframes nodePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.tree-node.root {
+    animation: nodePulse 3s ease-in-out infinite;
+}

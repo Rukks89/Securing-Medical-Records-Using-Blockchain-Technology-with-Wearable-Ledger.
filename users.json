@@ -1,0 +1,30 @@
+{
+    "pat": {
+        "password": "pat123",
+        "role": "patient",
+        "name": "pat",
+        "access_allow_list": [
+            "doc"
+        ]
+    },
+    "doc": {
+        "password": "doc123",
+        "role": "doctor",
+        "name": "doc",
+        "access_allow_list": []
+    },
+    "adm": {
+        "password": "adm123",
+        "role": "hospital_admin",
+        "name": "adm",
+        "access_allow_list": []
+    },
+    "r1": {
+        "password": "r1",
+        "role": "patient",
+        "name": "r1",
+        "access_allow_list": [
+            "doc"
+        ]
+    }
+}

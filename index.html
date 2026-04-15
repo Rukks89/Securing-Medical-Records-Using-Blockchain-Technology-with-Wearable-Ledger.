@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wearable Ledger - Secure Medical Records System using Blockchain Technology">
+    <title>Wearable Ledger | Secure Medical Records System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Authentication View -->
+    <div id="authView" class="auth-view">
+        <div class="auth-wrapper">
+            <div class="auth-card glass-card">
+                <div class="auth-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="auth-logo">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                    <h2 id="authTitle">Login to Portal</h2>
+                </div>
+                <form onsubmit="handleAuth(event)" id="authForm">
+                    <div class="form-group" id="nameGroup" style="display: none;">
+                        <label for="authName">Full Name</label>
+                        <input type="text" id="authName" placeholder="John Doe" autocomplete="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="authUsername">Username</label>
+                        <input type="text" id="authUsername" required placeholder="user123" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="authPassword">Password</label>
+                        <input type="password" id="authPassword" required placeholder="••••••••"
+                            autocomplete="current-password">
+                    </div>
+                    <div class="form-group" id="roleGroup" style="display: none;">
+                        <label for="authRole">Role</label>
+                        <select id="authRole">
+                            <option value="patient">Patient</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="hospital_admin">Hospital Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="hospitalGroup" style="display: none;">
+                        <label for="authHospital">Hospital Name</label>
+                        <input type="text" id="authHospital" placeholder="e.g. City General Hospital"
+                            autocomplete="organization">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="authBtn">
+                        <span class="btn-text">Login</span>
+                        <div class="spinner hidden" id="authSpinner"></div>
+                    </button>
+
+                    <p class="auth-toggle-text">
+                        <span id="authToggleText">New here?</span>
+                        <a href="#" onclick="toggleAuthMode(); return false;" class="auth-link">Click here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Layout -->
+    <div id="dashboardView" class="dashboard-view hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="brand-icon">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                    <h1>Wearable Ledger</h1>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebarNav">
+                <!-- Navigation items will be populated by JavaScript based on role -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="sidebar-item" onclick="logout()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="page-title">
+                        <h2 id="pageTitle">Dashboard</h2>
+                        <p id="pageSubtitle" class="page-subtitle">Welcome back</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- Hospital Name Display (for all roles) -->
+                    <div id="hospitalNameDisplay" class="hospital-name-display hidden">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span id="hospitalNameText">Hospital</span>
+                    </div>
+
+                    <!-- Notification Bell (for patients) -->
+                    <div id="notificationContainer" class="notification-container hidden">
+                        <button class="btn-icon notification-bell" id="notificationBell" aria-label="Notifications"
+                            title="Notifications">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span class="notification-badge" id="notificationBadge">0</span>
+                        </button>
+                    </div>
+
+                    <div class="user-info-header">
+                        <div class="user-avatar">
+                            <span id="userInitials">U</span>
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name" id="headerUserName">User</span>
+                            <span class="user-role" id="headerUserRole">Role</span>
+                        </div>
+                    </div>
+                    <button class="btn-icon header-icon" id="themeToggle" aria-label="Toggle theme"
+                        title="Toggle Theme">
+                        <svg class="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Content Area -->
+            <div class="content-area" id="contentArea">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner-large"></div>
+        <p class="loading-text">Loading...</p>
+    </div>
+
+    <!-- Notification Panel -->
+    <div id="notificationPanel" class="notification-panel hidden">
+        <div class="notification-panel-header">
+            <h3>Access Notifications</h3>
+            <div class="notification-actions">
+                <button class="btn-text-link" onclick="markAllNotificationsRead()">Mark all read</button>
+                <button class="btn-icon" onclick="closeNotificationPanel()" aria-label="Close">×</button>
+            </div>
+        </div>
+        <div id="notificationList" class="notification-list">
+            <div class="empty-state">No notifications</div>
+        </div>
+    </div>
+
+    <!-- Record Preview Modal -->
+    <div id="recordModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h3 id="modalTitle">Record Metadata & Blockchain Proof</h3>
+                <button class="btn-icon" onclick="closeRecordModal()" aria-label="Close modal">×</button>
+            </div>
+            <div id="recordModalContent" class="modal-content">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Skeleton Loader Templates (hidden by default) -->
+    <template id="skeletonCard">
+        <div class="skeleton-card">
+            <div class="skeleton-line skeleton-title"></div>
+            <div class="skeleton-line skeleton-text"></div>
+            <div class="skeleton-line skeleton-text short"></div>
+        </div>
+    </template>
+
+    <template id="skeletonTable">
+        <div class="skeleton-table">
+            <div class="skeleton-row" style="display: flex; gap: 1rem; padding: 1rem;">
+                <div class="skeleton-line" style="flex: 1;"></div>
+                <div class="skeleton-line" style="flex: 1;"></div>
+                <div class="skeleton-line" style="flex: 1;"></div>
+                <div class="skeleton-line" style="flex: 1;"></div>
+            </div>
+        </div>
+    </template>
+
+    <script src="consent_manager.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

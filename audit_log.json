@@ -1,0 +1,11 @@
+[
+    {
+        "timestamp": "2025-12-31T12:46:17.058905",
+        "accessedBy": "r1",
+        "accessedByRole": "patient",
+        "recordOwner": "r1",
+        "recordIndex": 3,
+        "recordDescription": "Medical Record",
+        "hospitalName": "SDM"
+    }
+]
